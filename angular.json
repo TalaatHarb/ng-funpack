@@ -1,0 +1,168 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ng-funpack-components": {
+      "projectType": "library",
+      "root": "projects/ng-funpack-components",
+      "sourceRoot": "projects/ng-funpack-components/src",
+      "prefix": "funpack",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/ng-funpack-components/tsconfig.lib.json",
+            "project": "projects/ng-funpack-components/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ng-funpack-components/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-funpack-components/src/test.ts",
+            "tsConfig": "projects/ng-funpack-components/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-funpack-components/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-funpack-components/tsconfig.lib.json",
+              "projects/ng-funpack-components/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "ng-funpack-samples": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/ng-funpack-samples",
+      "sourceRoot": "projects/ng-funpack-samples/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/ng-funpack-samples",
+            "index": "projects/ng-funpack-samples/src/index.html",
+            "main": "projects/ng-funpack-samples/src/main.ts",
+            "polyfills": "projects/ng-funpack-samples/src/polyfills.ts",
+            "tsConfig": "projects/ng-funpack-samples/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/ng-funpack-samples/src/favicon.ico",
+              "projects/ng-funpack-samples/src/assets"
+            ],
+            "styles": [
+              "projects/ng-funpack-samples/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ng-funpack-samples/src/environments/environment.ts",
+                  "with": "projects/ng-funpack-samples/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ng-funpack-samples:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ng-funpack-samples:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ng-funpack-samples:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-funpack-samples/src/test.ts",
+            "polyfills": "projects/ng-funpack-samples/src/polyfills.ts",
+            "tsConfig": "projects/ng-funpack-samples/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-funpack-samples/karma.conf.js",
+            "assets": [
+              "projects/ng-funpack-samples/src/favicon.ico",
+              "projects/ng-funpack-samples/src/assets"
+            ],
+            "styles": [
+              "projects/ng-funpack-samples/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-funpack-samples/tsconfig.app.json",
+              "projects/ng-funpack-samples/tsconfig.spec.json",
+              "projects/ng-funpack-samples/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/ng-funpack-samples/e2e/protractor.conf.js",
+            "devServerTarget": "ng-funpack-samples:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ng-funpack-samples:serve:production"
+            }
+          }
+        }
+      }
+    }},
+  "defaultProject": "ng-funpack-components"
+}
